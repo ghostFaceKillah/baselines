@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from functools import partial
+import ray
 
 from baselines import logger
 from baselines.acktr.acktr_disc import learn
@@ -17,7 +18,8 @@ def train(env_id, num_timesteps, seed, num_cpu):
 def main():
     args = atari_arg_parser().parse_args()
     logger.configure()
-    train(args.env, num_timesteps=args.num_timesteps, seed=args.seed, num_cpu=32)
+    ray.init()
+    train(args.env, num_timesteps=args.num_timesteps, seed=args.seed, num_cpu=12)
 
 if __name__ == '__main__':
     main()

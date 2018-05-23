@@ -10,6 +10,7 @@ from baselines.bench import Monitor
 from baselines.common import set_global_seeds
 from baselines.common.atari_wrappers import make_atari, wrap_deepmind
 from baselines.common.vec_env.subproc_vec_env import SubprocVecEnv
+from baselines.common.vec_env.ray_vec_env import RayVecEnv
 
 def make_atari_env(env_id, num_env, seed, wrapper_kwargs=None, start_index=0):
     """
@@ -24,7 +25,7 @@ def make_atari_env(env_id, num_env, seed, wrapper_kwargs=None, start_index=0):
             return wrap_deepmind(env, **wrapper_kwargs)
         return _thunk
     set_global_seeds(seed)
-    return SubprocVecEnv([make_env(i + start_index) for i in range(num_env)])
+    return RayVecEnv([make_env(i + start_index) for i in range(num_env)])
 
 def make_mujoco_env(env_id, seed):
     """
